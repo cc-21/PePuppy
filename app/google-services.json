@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "941002606171-sfp1aohcg55lll59ocubhbt68vulidp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mcgill.pepuppy",
+            "certificate_hash": "f153592b62ea02ad66a32abb27039c350198da51"
+          }
+        },
+        {
           "client_id": "941002606171-m0ki6nhlmsfo696psrilsg71nkr9atfk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -1,5 +1,6 @@
 package com.mcgill.pepuppy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import android.content.Intent;
@@ -11,13 +12,18 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static androidx.core.content.FileProvider.*;
 
@@ -91,4 +97,35 @@ public class MainActivity extends AppCompatActivity
         aCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+    private void test()
+    {
+        FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler();
+        labeler.processImage(aVisionImage)
+                .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
+                {
+                    @Override
+                    public void onSuccess(List<FirebaseVisionImageLabel> labels)
+                    {
+                        // Task completed successfully
+                        // ...
+                        for (FirebaseVisionImageLabel label:labels)
+                        {
+                            String text=label.getText();
+                            String entityId = label.getEntityId();
+                            float confidence = label.getConfidence();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        // Task failed with an exception
+                        // ...
+                    }
+                });
+    }
+
 }
