@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "941002606171",
+    "firebase_url": "https://mchack-pepuppy.firebaseio.com",
+    "project_id": "mchack-pepuppy",
+    "storage_bucket": "mchack-pepuppy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941002606171:android:d3a59556b5c7cef3a4217e",
+        "android_client_info": {
+          "package_name": "com.mcgill.pepuppy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941002606171-m0ki6nhlmsfo696psrilsg71nkr9atfk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mcgill.pepuppy",
+            "certificate_hash": "9f035c2866a403596c7e6312455d71d700552f54"
+          }
+        },
+        {
+          "client_id": "941002606171-nvp089ujj24mk39ba8p4l3rtln5u05ne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn9QFC_X9zoYjUVw1qqRVowdSvajqfSjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941002606171-nvp089ujj24mk39ba8p4l3rtln5u05ne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
