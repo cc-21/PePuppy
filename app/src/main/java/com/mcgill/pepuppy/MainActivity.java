@@ -2,14 +2,17 @@ package com.mcgill.pepuppy;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.ImageView;
+
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_TAKE_PHOTO = 1;
+    private FirebaseVisionImage aVisionImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity
             {
                 Uri photoURI = getUriForFile(
                         this,
-                        "com.example.android.fileprovider",
+                        "com.mcgill.pepuppy.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
