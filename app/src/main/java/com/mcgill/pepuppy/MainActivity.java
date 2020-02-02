@@ -248,6 +248,9 @@ public class MainActivity extends AppCompatActivity
                 labelResult += breedLabel + " - " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
                 if(breedLink.equals(""))
                 {
+                    if (breedLabel.contains(" ")){
+                        breedLabel=breedLabel.replace(" ","_");
+                    }
                     breedLink = "Look at: https://en.wilipedia.org/wiki/" + breedLabel;
                 }
                 Log.d("Label", labelResult);
@@ -255,7 +258,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (labelResult.equals(""))
         {
-            labelResult += "Sorry, but we recommend this site for you!";
+            labelResult += "It's not a dog!";
         }
         aRecommendLink.setText("https://www.dogspot.in/adoption/");
         aBreedLink.setText(breedLink, TextView.BufferType.NORMAL);

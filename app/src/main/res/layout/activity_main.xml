@@ -14,10 +14,11 @@
         android:layout_width="150dp"
         android:layout_height="72dp"
         android:layout_gravity="bottom|left"
+        android:background="#448F87"
         android:drawableLeft="@color/colorAccent"
+        android:fontFamily="@font/aclonica"
         android:text="Take a photo"
-        android:visibility="visible">
-    </Button>
+        android:visibility="visible"></Button>
 
     <Button
         android:id="@+id/capture_image_btn2"
@@ -25,10 +26,11 @@
         android:layout_width="150dp"
         android:layout_height="72dp"
         android:layout_gravity="bottom|right"
+        android:background="#448F87"
         android:drawableLeft="@color/colorAccent"
+        android:fontFamily="@font/aclonica"
         android:text="take from library"
-        android:visibility="visible">
-    </Button>
+        android:visibility="visible"></Button>
 
     <ImageView
         android:id="@+id/photo_view"
@@ -52,13 +54,14 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        android:fontFamily="casual"
+        android:layout_width="wrap_content"
+        android:layout_height="229dp"
+        android:layout_marginTop="120dp"
+        android:fontFamily="@font/aclonica"
         android:text="LOVELY DOGGY"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:textSize="32sp"
+        android:textColor="#448F87"
+        android:textSize="44dp"
         android:textStyle="bold" />
 
     <TextView
