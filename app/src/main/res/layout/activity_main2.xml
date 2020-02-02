@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:background="#FAFAFA"
         android:orientation="vertical">
-<!--        app:layout_behavior="@string/bottom_sheet_behavior">-->
 
         <ProgressBar
             android:id="@+id/progressBar"

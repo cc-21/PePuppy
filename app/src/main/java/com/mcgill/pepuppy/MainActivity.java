@@ -10,15 +10,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private static final int PERMISSION_CODE = 1000;
     private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private TextView aText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
         aCaptureBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity
                 Bitmap bmp = BitmapFactory.decodeFile(aCurrentPhotoPath);
                 FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
                 final FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
-                        .getCloudImageLabeler();
+                        .getOnDeviceImageLabeler();
                 labeler.processImage(image)
                         .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
                         {
@@ -159,7 +162,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void alert(String message) {
+    public void alert(String message)
+    {
         AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
         dlgAlert.setMessage(message);
         dlgAlert.setTitle("Woops!");
@@ -167,20 +171,22 @@ public class MainActivity extends AppCompatActivity
         {
             public void onClick(DialogInterface dialog, int which)
             {
-                //Todo
             }
         });
         dlgAlert.setCancelable(true);
         dlgAlert.create().show();
     }
 
-    private void classify(List<FirebaseVisionImageLabel> labels) {
+    private void classify(List<FirebaseVisionImageLabel> labels)
+    {
+        String labelResult = "Found Lable is: \n";
         for (int i = 0; i < labels.size(); i++) {
-            String thing = labels.get(i).getText();
-            Log.d("Label", thing);
+            labelResult += labels.get(i).getText();
+            labelResult += ": " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
+            Log.d("Label", labelResult);
         }
-        LayoutInflater factory = LayoutInflater.from(this);
-        View view = factory.inflate(R.layout.item_row, null);
+        aText.setText(labelResult, TextView.BufferType.NORMAL);
+        aText.setBackgroundColor(Color.WHITE);
     }
 
     private File createImageFile() throws IOException
