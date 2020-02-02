@@ -30,6 +30,7 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private static final int PERMISSION_CODE = 1000;
     private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_UPLOAD = 2;
     private TextView aText;
     private TextView aBreedLink;
 
@@ -92,6 +94,13 @@ public class MainActivity extends AppCompatActivity
     // Todo
     private void dispatchUploadImageIntent()
     {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_IMAGE_UPLOAD);
+        //startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_IMAGE_UPLOAD);
     }
 
     @Override
@@ -120,7 +129,6 @@ public class MainActivity extends AppCompatActivity
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null)
         {
-
             // Create the File where the photo should go
             File photoFile = null;
             try
@@ -147,32 +155,66 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK)
         {
-            if (requestCode == REQUEST_IMAGE_CAPTURE)
+            final FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
+                    .getCloudImageLabeler();
+            try
             {
-                Bitmap bmp = BitmapFactory.decodeFile(aCurrentPhotoPath);
-                FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
-                final FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
-                        .getCloudImageLabeler();
-                labeler.processImage(image)
-                        .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
-                        {
-                            @Override
-                            public void onSuccess(List<FirebaseVisionImageLabel> labels)
+                if (requestCode == REQUEST_IMAGE_CAPTURE)
+                {
+                    Bitmap bmp = BitmapFactory.decodeFile(aCurrentPhotoPath);
+                    FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
+                    labeler.processImage(image)
+                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
                             {
-                                classify(labels);
+                                @Override
+                                public void onSuccess(List<FirebaseVisionImageLabel> labels)
+                                {
+                                    classify(labels);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener()
+                            {
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+                                    alert("Image cannot be recognized.");
+                                }
+                            });
+                }
+                else if(requestCode == REQUEST_IMAGE_UPLOAD)
+                {
+                    Uri selectedImage = data.getData();
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener()
-                        {
-                            @Override
-                            public void onFailure(@NonNull Exception e)
+                    Bitmap bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                    FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
+                    labeler.processImage(image)
+                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
                             {
-                                alert("Image cannot be recognized.");
-                            }
-                        });
+                                @Override
+                                public void onSuccess(List<FirebaseVisionImageLabel> labels)
+                                {
+                                    classify(labels);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener()
+                            {
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+                                    alert("Image cannot be recognized.");
+                                }
+                            });
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                Log.d("", "dispatchUploadImageIntent: " + e.toString());
+            } catch (IOException e)
+            {
+                Log.d("", "dispatchUploadImageIntent: " + e.toString());
             }
         }
     }
