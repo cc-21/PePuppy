@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/app_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +16,8 @@
         android:layout_gravity="bottom|left"
         android:drawableLeft="@color/colorAccent"
         android:text="Take a photo"
-        android:visibility="visible"></Button>
+        android:visibility="visible">
+    </Button>
 
     <Button
         android:id="@+id/capture_image_btn2"
@@ -25,7 +27,8 @@
         android:layout_gravity="bottom|right"
         android:drawableLeft="@color/colorAccent"
         android:text="take from library"
-        android:visibility="visible"></Button>
+        android:visibility="visible">
+    </Button>
 
     <ImageView
         android:id="@+id/photo_view"
@@ -34,7 +37,8 @@
         android:layout_gravity="left|bottom"
         android:layout_marginBottom="72dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_add_a_photo_black_24dp"></ImageView>
+        android:src="@drawable/ic_add_a_photo_black_24dp">
+    </ImageView>
 
     <ImageView
         android:id="@+id/image_view"
@@ -44,7 +48,6 @@
         android:layout_marginBottom="72dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_collections_black_24dp">
-
     </ImageView>
 
     <TextView
@@ -57,5 +60,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
         android:textSize="32sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/breed_link"
+        android:autoLink="web"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
