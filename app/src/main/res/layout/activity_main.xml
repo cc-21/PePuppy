@@ -34,6 +34,19 @@
         android:visibility="visible">
     </Button>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="272dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="140dp"
+        android:fontFamily="@font/aclonica"
+        android:text=" LOVELY DOGGY "
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        android:textColor="#F24EC2B3"
+        android:textSize="42dp"
+        android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/photo_view"
         android:layout_width="113dp"
@@ -51,19 +64,6 @@
         android:layout_marginBottom="72dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_collections_black_24dp"></ImageView>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="411dp"
-        android:layout_height="391dp"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        android:layout_marginBottom="140dp"
-        android:fontFamily="@font/aclonica"
-        android:text=" LOVELY DOGGY "
-        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:textColor="#F24EC2B3"
-        android:textSize="44dp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/breed_link"

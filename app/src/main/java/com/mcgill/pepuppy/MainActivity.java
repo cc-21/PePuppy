@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity
                     labelResult += "Found breed:\n";
                 }
                 labelResult += breedLabel + " - " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
-                if(breedLink.equals(""))
+                if(breedLink.equals("PUPPY 404"))
                 {
                     if (breedLabel.contains(" "))
                     {
