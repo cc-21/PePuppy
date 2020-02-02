@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         aBreedLink = findViewById(R.id.breed_link);
+
         aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
         aVisitedBtn = findViewById(R.id.capture_image_btn2);
@@ -91,16 +92,13 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    // Todo
     private void dispatchUploadImageIntent()
     {
-
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_IMAGE_UPLOAD);
-        //startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_IMAGE_UPLOAD);
     }
 
     @Override
@@ -155,7 +153,6 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK)
         {
             final FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
@@ -242,14 +239,14 @@ public class MainActivity extends AppCompatActivity
             labelResult += ": " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
             Log.d("Label", labelResult);
         }
-
         aBreedLink.setText("https://www.dogspot.in/adoption/");
         aText.setText(labelResult, TextView.BufferType.NORMAL);
         aText.setBackgroundColor(Color.WHITE);
     }
 
     private File createImageFile() throws IOException
-    {// Create an image file name
+    {
+        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
