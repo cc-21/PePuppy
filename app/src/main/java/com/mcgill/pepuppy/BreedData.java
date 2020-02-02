@@ -37,9 +37,9 @@ public class BreedData {
             "Treeing Walker Coonhound","Vizsla","Weimaraner","Welsh Springer Spaniel","Welsh Terrier","West Highland White Terrier","Whippet",
             "Wire Fox Terrier","Wirehaired Pointing Griffon","Wirehaired Vizsla","Xoloitzcuintli","Yorkshire Terrier"};
 
-    private List<String> breedData = Arrays.asList(breedInfo);
+    private static List<String> breedData = Arrays.asList(breedInfo);
 
-    public boolean contains(String pName)
+    public static boolean contains(String pName)
     {
         return breedData.stream()
                 .anyMatch(breed -> breed.trim().toLowerCase().equals(pName.trim().toLowerCase()));

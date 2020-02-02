@@ -69,4 +69,12 @@
         android:layout_height="wrap_content"
         android:text="" />
 
+    <TextView
+        android:id="@+id/recommend_link"
+        android:autoLink="web"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

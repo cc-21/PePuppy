@@ -50,45 +50,15 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_IMAGE_UPLOAD = 2;
     private TextView aText;
     private TextView aBreedLink;
-    private static final String[] breedInfo = {"Blue Lacy","Queensland Heeler","Rhod Ridgeback","Retriever",
-            "Sharpei","Black Mouth Cur","Catahoula","Staffordshire","Affenpinscher","Afghan Hound",
-            "Airedale Terrier","Akita","Australian Kelpie","Alaskan Malamute","English Bulldog","American Bulldog",
-            "American English Coonhound","American Eskimo Dog","American Eskimo Dog",
-            "American Eskimo Dog (Toy)","American Foxhound","American Hairless Terrier","American Staffordshire Terrier",
-            "American Water Spaniel","Anatolian Shepherd Dog","Australian Cattle Dog","Australian Shepherd",
-            "Australian Terrier","Basenji","Basset Hound","Beagle","Bearded Collie","Beauceron","Bedlington Terrier",
-            "Belgian Malinois","Belgian Sheepdog","Belgian Tervuren","Bergamasco","Berger Picard","Bernese Mountain Dog",
-            "Bichon Fris_","Black and Tan Coonhound","Black Russian Terrier","Bloodhound","Bluetick Coonhound","Boerboel",
-            "Border Collie","Border Terrier","Borzoi","Boston Terrier","Bouvier des Flandres","Boxer","Boykin Spaniel",
-            "Briard","Brittany","Brussels Griffon","Bull Terrier","Bull Terrier","Bulldog","Bullmastiff","Cairn Terrier",
-            "Canaan Dog","Cane Corso","Cardigan Welsh Corgi","Cavalier King Charles Spaniel","Cesky Terrier","Chesapeake Bay Retriever",
-            "Chihuahua","Chinese Crested Dog","Chinese Shar Pei","Chinook","Chow Chow","Cirneco dell'Etna","Clumber Spaniel","Cocker Spaniel",
-            "Collie","Coton de Tulear","Curly-Coated Retriever","Dachshund","Dalmatian","Dandie Dinmont Terrier","Doberman Pinsch",
-            "Doberman Pinscher","Dogue De Bordeaux","English Cocker Spaniel","English Foxhound","English Setter","English Springer Spaniel",
-            "English Toy Spaniel","Entlebucher Mountain Dog","Field Spaniel","Finnish Lapphund","Finnish Spitz","Flat-Coated Retriever",
-            "French Bulldog","German Pinscher","German Shepherd","German Shorthaired Pointer","German Wirehaired Pointer","Giant Schnauzer",
-            "Glen of Imaal Terrier","Golden Retriever","Gordon Setter","Great Dane","Great Pyrenees","Greater Swiss Mountain Dog","Greyhound",
-            "Harrier","Havanese","Ibizan Hound","Icelandic Sheepdog","Irish Red and White Setter","Irish Setter","Irish Terrier",
-            "Irish Water Spaniel","Irish Wolfhound","Italian Greyhound","Japanese Chin","Keeshond","Kerry Blue Terrier","Komondor",
-            "Kuvasz","Labrador Retriever","Lagotto Romagnolo","Lakeland Terrier","Leonberger","Lhasa Apso","L_wchen","Maltese",
-            "Manchester Terrier","Mastiff","Miniature American Shepherd","Miniature Bull Terrier","Miniature Pinscher","Miniature Schnauzer",
-            "Neapolitan Mastiff","Newfoundland","Norfolk Terrier","Norwegian Buhund","Norwegian Elkhound","Norwegian Lundehund","Norwich Terrier",
-            "Nova Scotia Duck Tolling Retriever","Old English Sheepdog","Otterhound","Papillon","Parson Russell Terrier","Pekingese",
-            "Pembroke Welsh Corgi","Petit Basset Griffon Vend_en","Pharaoh Hound","Plott","Pointer","Polish Lowland Sheepdog","Pomeranian",
-            "Standard Poodle","Miniature Poodle","Toy Poodle","Portuguese Podengo Pequeno","Portuguese Water Dog","Pug","Puli","Pyrenean Shepherd",
-            "Rat Terrier","Redbone Coonhound","Rhodesian Ridgeback","Rottweiler","Russell Terrier","St. Bernard","Saluki","Samoyed","Schipperke",
-            "Scottish Deerhound","Scottish Terrier","Sealyham Terrier","Shetland Sheepdog","Shiba Inu","Shih Tzu","Siberian Husky","Silky Terrier",
-            "Skye Terrier","Sloughi","Smooth Fox Terrier","Soft-Coated Wheaten Terrier","Spanish Water Dog","Spinone Italiano","Staffordshire Bull Terrier",
-            "Standard Schnauzer","Sussex Spaniel","Swedish Vallhund","Tibetan Mastiff","Tibetan Spaniel","Tibetan Terrier","Toy Fox Terrier",
-            "Treeing Walker Coonhound","Vizsla","Weimaraner","Welsh Springer Spaniel","Welsh Terrier","West Highland White Terrier","Whippet",
-            "Wire Fox Terrier","Wirehaired Pointing Griffon","Wirehaired Vizsla","Xoloitzcuintli","Yorkshire Terrier"};
-    private List<String> breedData = Arrays.asList(breedInfo);
+    private TextView aRecommendLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        aRecommendLink = findViewById(R.id.recommend_link);
         aBreedLink = findViewById(R.id.breed_link);
         aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
@@ -98,20 +68,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                        && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 {
-                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                            && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                    {
-                        dispatchTakePictureIntent();
-                    }else{
-                        // Permission not enabled
-                        String[] permission ={Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                        // Show popup to request permissions
-                        requestPermissions(permission, PERMISSION_CODE);
-                    }
+                    dispatchTakePictureIntent();
+                }else{
+                    // Permission not enabled
+                    String[] permission ={Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    // Show popup to request permissions
+                    requestPermissions(permission, PERMISSION_CODE);
                 }
-                else { }
             }
         });
         aVisitedBtn.setOnClickListener(
@@ -128,13 +94,11 @@ public class MainActivity extends AppCompatActivity
     // Todo
     private void dispatchUploadImageIntent()
     {
-
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_IMAGE_UPLOAD);
-        //startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_IMAGE_UPLOAD);
     }
 
     @Override
@@ -268,43 +232,40 @@ public class MainActivity extends AppCompatActivity
         dlgAlert.create().show();
     }
 
-    public boolean breadContains(String pName)
-    { return breedData.stream().anyMatch(breed -> breed.trim().toLowerCase().equals(pName.trim().toLowerCase())); }
-
     private void classify(List<FirebaseVisionImageLabel> labels)
     {
         String labelResult = "";
         String breedLink = "";
-        int judger=0;
         for (int i = 0; i < labels.size(); i++)
         {
-            String dogname = labels.get(i).getText();
-            if (breadContains(dogname))
+            String breedLabel = labels.get(i).getText();
+            if (BreedData.contains(breedLabel))
             {
-                if (judger==0)
+                if (labelResult.equals(""))
                 {
                     labelResult += "Found breed:\n";
                 }
-                labelResult += dogname + " - " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
+                labelResult += breedLabel + " - " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
                 if(breedLink.equals(""))
                 {
-                    breedLink = "Look at: https://en.wilipedia.org/wiki/" + dogname;
+                    breedLink = "Look at: https://en.wilipedia.org/wiki/" + breedLabel;
                 }
                 Log.d("Label", labelResult);
-                judger++;
             }
         }
-        if (judger<1){
+        if (labelResult.equals(""))
+        {
             labelResult += "Sorry, but we recommend this site for you!";
-            labelResult += "https://www.dogspot.in/adoption/";
         }
+        aRecommendLink.setText("https://www.dogspot.in/adoption/");
         aBreedLink.setText(breedLink, TextView.BufferType.NORMAL);
         aText.setText(labelResult, TextView.BufferType.NORMAL);
         aText.setBackgroundColor(Color.WHITE);
     }
 
     private File createImageFile() throws IOException
-    {// Create an image file name
+    {
+        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
