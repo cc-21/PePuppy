@@ -13,9 +13,9 @@
     <Button
         android:id="@+id/capture_image_btn1"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="315dp"
+        android:layout_width="150dp"
         android:layout_height="72dp"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|left"
         android:drawableLeft="@color/colorAccent"
         android:text="Take a photo"
         android:visibility="visible"></Button>
@@ -23,9 +23,9 @@
     <Button
         android:id="@+id/capture_image_btn2"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="322dp"
-        android:layout_height="69dp"
-        android:layout_gravity="bottom|end"
+        android:layout_width="150dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|right"
         android:drawableLeft="@color/colorAccent"
         android:text="take from library"
         android:visibility="visible"></Button>
@@ -35,6 +35,7 @@
         android:layout_width="107dp"
         android:layout_height="106dp"
         android:layout_marginStart="52dp"
+        android:layout_gravity="left"
         android:layout_marginLeft="52dp"
 
         android:layout_marginTop="630dp"
@@ -47,6 +48,7 @@
         android:layout_height="102dp"
         android:layout_marginStart="450dp"
         android:layout_marginTop="630dp"
+        android:layout_gravity="right"
         android:src="@drawable/ic_collections_black_24dp"
         android:layout_marginLeft="450dp">
 
