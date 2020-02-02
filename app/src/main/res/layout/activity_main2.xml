@@ -14,16 +14,6 @@
 
 
     <Button
-        android:id="@+id/capture_image_btn1"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="315dp"
-        android:layout_height="72dp"
-        android:layout_gravity="bottom"
-        android:drawableLeft="@color/colorAccent"
-        android:text="Take a photo"
-        android:visibility="visible"></Button>
-
-    <Button
         android:id="@+id/capture_image_btn2"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="322dp"
@@ -31,6 +21,16 @@
         android:layout_gravity="bottom|end"
         android:drawableLeft="@color/colorAccent"
         android:text="take from library"
+        android:visibility="visible"></Button>
+
+    <Button
+        android:id="@+id/capture_image_btn1"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="315dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom"
+        android:drawableLeft="@color/colorAccent"
+        android:text="Take a photo"
         android:visibility="visible"></Button>
 
     <ImageView

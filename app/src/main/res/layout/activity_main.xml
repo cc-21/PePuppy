@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dog2"
     tools:context=".MainActivity">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="743dp" />
+
 
 
     <Button
@@ -50,9 +47,17 @@
         android:layout_height="102dp"
         android:layout_marginStart="450dp"
         android:layout_marginTop="630dp"
-        android:src="@drawable/ic_collections_black_24dp">
+        android:src="@drawable/ic_collections_black_24dp"
+        android:layout_marginLeft="450dp">
 
     </ImageView>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="514dp"
+        android:layout_height="356dp"
+        android:layout_gravity="center"
+        android:text="LOVELY DOGGY" />
 
 
     <!--        <TextView-->
@@ -65,4 +70,4 @@
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
