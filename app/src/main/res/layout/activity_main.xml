@@ -17,8 +17,9 @@
         android:background="#448F87"
         android:drawableLeft="@color/colorAccent"
         android:fontFamily="@font/aclonica"
-        android:text="Take a photo"
-        android:visibility="visible"></Button>
+        android:text="Take a Photo"
+        android:visibility="visible">
+    </Button>
 
     <Button
         android:id="@+id/capture_image_btn2"
@@ -29,55 +30,63 @@
         android:background="#448F87"
         android:drawableLeft="@color/colorAccent"
         android:fontFamily="@font/aclonica"
-        android:text="take from library"
-        android:visibility="visible"></Button>
+        android:text="Upload a Photo"
+        android:visibility="visible">
+    </Button>
 
     <ImageView
         android:id="@+id/photo_view"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="113dp"
+        android:layout_height="109dp"
         android:layout_gravity="left|bottom"
         android:layout_marginBottom="72dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_add_a_photo_black_24dp">
-    </ImageView>
+        android:src="@drawable/ic_add_a_photo_black_24dp"></ImageView>
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="112dp"
+        android:layout_height="109dp"
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="72dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_collections_black_24dp">
-    </ImageView>
+        android:src="@drawable/ic_collections_black_24dp"></ImageView>
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="229dp"
-        android:layout_marginTop="120dp"
+        android:layout_width="411dp"
+        android:layout_height="391dp"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_marginBottom="140dp"
         android:fontFamily="@font/aclonica"
-        android:text="LOVELY DOGGY"
+        android:text=" LOVELY DOGGY "
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:textColor="#448F87"
+        android:textColor="#F24EC2B3"
         android:textSize="44dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/breed_link"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
         android:autoLink="web"
+        android:background="#D06FD1E7"
         android:clickable="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/recommend_link"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
         android:autoLink="web"
+        android:background="#D2FFD174"
         android:clickable="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
+        android:lineSpacingExtra="8sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="invisible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

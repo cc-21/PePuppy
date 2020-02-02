@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -235,20 +236,21 @@ public class MainActivity extends AppCompatActivity
     private void classify(List<FirebaseVisionImageLabel> labels)
     {
         String labelResult = "";
-        String breedLink = "";
+        String breedLink = "PUPPY 404";
         for (int i = 0; i < labels.size(); i++)
         {
             String breedLabel = labels.get(i).getText();
             if (BreedData.contains(breedLabel))
             {
-                if (labelResult.equals(""))
+                if (labelResult.equals("PUPPY 404"))
                 {
                     labelResult += "Found breed:\n";
                 }
                 labelResult += breedLabel + " - " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
                 if(breedLink.equals(""))
                 {
-                    if (breedLabel.contains(" ")){
+                    if (breedLabel.contains(" "))
+                    {
                         breedLabel=breedLabel.replace(" ","_");
                     }
                     breedLink = "Look at: https://en.wilipedia.org/wiki/" + breedLabel;
@@ -258,10 +260,13 @@ public class MainActivity extends AppCompatActivity
         }
         if (labelResult.equals(""))
         {
-            labelResult += "It's not a dog!";
+            labelResult += "Woops, PUPPY NOT FOUND!";
+            aText.setGravity(Gravity.CENTER);
         }
-        aRecommendLink.setText("https://www.dogspot.in/adoption/");
+        aRecommendLink.setText("Useful Link: "+ "https://www.dogspot.in/adoption/");
         aBreedLink.setText(breedLink, TextView.BufferType.NORMAL);
+        aRecommendLink.setVisibility(View.VISIBLE);
+        aBreedLink.setVisibility(View.VISIBLE);
         aText.setText(labelResult, TextView.BufferType.NORMAL);
         aText.setBackgroundColor(Color.WHITE);
     }
