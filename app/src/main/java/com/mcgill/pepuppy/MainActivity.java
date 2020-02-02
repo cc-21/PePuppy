@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_UPLOAD = 2;
     private TextView aText;
+    private TextView aBreedLink;
     private static final String[] breedInfo = {"Blue Lacy","Queensland Heeler","Rhod Ridgeback","Retriever",
             "Sharpei","Black Mouth Cur","Catahoula","Staffordshire","Affenpinscher","Afghan Hound",
             "Airedale Terrier","Akita","Australian Kelpie","Alaskan Malamute","English Bulldog","American Bulldog",
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        aBreedLink = findViewById(R.id.breed_link);
         aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
         aVisitedBtn = findViewById(R.id.capture_image_btn2);
@@ -272,15 +274,22 @@ public class MainActivity extends AppCompatActivity
     private void classify(List<FirebaseVisionImageLabel> labels)
     {
         String labelResult = "";
+        String breedLink = "";
         int judger=0;
-        for (int i = 0; i < labels.size(); i++) {
+        for (int i = 0; i < labels.size(); i++)
+        {
             String dogname = labels.get(i).getText();
-            if (breadContains(dogname)){
-                if (judger==0){
-                    labelResult += "Found Label:\n"; }
-                labelResult += dogname;
-                labelResult += ": " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
-                labelResult += ": " + "https://en.wilipedia.org/wiki/" + dogname + "\n";
+            if (breadContains(dogname))
+            {
+                if (judger==0)
+                {
+                    labelResult += "Found breed:\n";
+                }
+                labelResult += dogname + " - " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
+                if(breedLink.equals(""))
+                {
+                    breedLink = "Look at: https://en.wilipedia.org/wiki/" + dogname;
+                }
                 Log.d("Label", labelResult);
                 judger++;
             }
@@ -289,6 +298,7 @@ public class MainActivity extends AppCompatActivity
             labelResult += "Sorry, but we recommend this site for you!";
             labelResult += "https://www.dogspot.in/adoption/";
         }
+        aBreedLink.setText(breedLink, TextView.BufferType.NORMAL);
         aText.setText(labelResult, TextView.BufferType.NORMAL);
         aText.setBackgroundColor(Color.WHITE);
     }
