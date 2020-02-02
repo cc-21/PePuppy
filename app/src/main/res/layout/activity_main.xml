@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/app_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/download"
@@ -57,5 +60,14 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
         android:textSize="32sp"
         android:textStyle="bold" />
+    <TextView
+        android:id="@+id/breed_link"
+        android:autoLink="web"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

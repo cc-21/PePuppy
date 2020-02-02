@@ -45,12 +45,15 @@ public class MainActivity extends AppCompatActivity
     private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private TextView aText;
+    private TextView aBreedLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        aBreedLink = findViewById(R.id.breed_link);
         aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
         aVisitedBtn = findViewById(R.id.capture_image_btn2);
@@ -197,6 +200,8 @@ public class MainActivity extends AppCompatActivity
             labelResult += ": " + String.format("%03.2f", labels.get(i).getConfidence()*100) + "%\n";
             Log.d("Label", labelResult);
         }
+
+        aBreedLink.setText("https://www.dogspot.in/adoption/");
         aText.setText(labelResult, TextView.BufferType.NORMAL);
         aText.setBackgroundColor(Color.WHITE);
     }
