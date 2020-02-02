@@ -40,6 +40,7 @@ import static androidx.core.content.FileProvider.*;
 public class MainActivity extends AppCompatActivity
 {
     private Button aCaptureBtn;
+    private Button aVisitedBtn;
     private static final int PERMISSION_CODE = 1000;
     private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -50,9 +51,9 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
+        aVisitedBtn = findViewById(R.id.capture_image_btn2);
         aCaptureBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -71,12 +72,23 @@ public class MainActivity extends AppCompatActivity
                         requestPermissions(permission, PERMISSION_CODE);
                     }
                 }
-                else
-                {
-                    // System OS < marshmallow
-                }
+                else { }
             }
         });
+        aVisitedBtn.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        dispatchUploadImageIntent();
+                    }
+        });
+    }
+
+    // Todo
+    private void dispatchUploadImageIntent()
+    {
     }
 
     @Override
@@ -139,7 +151,7 @@ public class MainActivity extends AppCompatActivity
                 Bitmap bmp = BitmapFactory.decodeFile(aCurrentPhotoPath);
                 FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
                 final FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
-                        .getOnDeviceImageLabeler();
+                        .getCloudImageLabeler();
                 labeler.processImage(image)
                         .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
                         {
@@ -190,8 +202,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private File createImageFile() throws IOException
-    {
-        // Create an image file name
+    {// Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
