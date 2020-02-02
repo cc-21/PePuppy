@@ -3,7 +3,8 @@ package com.mcgill.pepuppy;
 import java.util.Arrays;
 import java.util.List;
 
-public class BreedData {
+public class BreedData
+{
     private static final String[] breedInfo = {"Blue Lacy","Queensland Heeler","Rhod Ridgeback","Retriever",
             "Sharpei","Black Mouth Cur","Catahoula","Staffordshire","Affenpinscher","Afghan Hound",
             "Airedale Terrier","Akita","Australian Kelpie","Alaskan Malamute","English Bulldog","American Bulldog",
@@ -45,3 +46,4 @@ public class BreedData {
                 .anyMatch(breed -> breed.trim().toLowerCase().equals(pName.trim().toLowerCase()));
     }
 }
+

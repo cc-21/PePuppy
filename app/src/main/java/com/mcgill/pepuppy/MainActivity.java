@@ -1,6 +1,5 @@
 package com.mcgill.pepuppy;
 
-import java.util.Arrays;
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -14,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -37,18 +35,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static androidx.core.content.FileProvider.*;
 
 public class MainActivity extends AppCompatActivity
 {
-    private Button aCaptureBtn;
-    private Button aVisitedBtn;
     private static final int PERMISSION_CODE = 1000;
-    private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_UPLOAD = 2;
+    private Button aCaptureBtn;
+    private Button aVisitedBtn;
+    private String aCurrentPhotoPath;
     private TextView aText;
     private TextView aBreedLink;
     private TextView aRecommendLink;
