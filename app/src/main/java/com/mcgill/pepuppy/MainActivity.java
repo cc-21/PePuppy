@@ -1,15 +1,24 @@
 package com.mcgill.pepuppy;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.widget.ImageView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,11 +37,10 @@ import static androidx.core.content.FileProvider.*;
 
 public class MainActivity extends AppCompatActivity
 {
-    private ImageView aImageView;
+    private Button aCaptureBtn;
+    private static final int PERMISSION_CODE = 1000;
     private String aCurrentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_TAKE_PHOTO = 1;
-    private FirebaseVisionImage aVisionImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +48,51 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        aCaptureBtn = findViewById(R.id.capture_image_btn1);
+        aCaptureBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                {
+                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                    {
+                        dispatchTakePictureIntent();
+                    }else{
+                        // Permission not enabled
+                        String[] permission ={Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                        // Show popup to request permissions
+                        requestPermissions(permission, PERMISSION_CODE);
+                    }
+                }
+                else
+                {
+                    // System OS < marshmallow
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case PERMISSION_CODE:
+            {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    dispatchTakePictureIntent();
+                }
+                else
+                {
+                    Toast.makeText(this, "Permission Denied",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     private void dispatchTakePictureIntent()
@@ -48,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null)
         {
+
             // Create the File where the photo should go
             File photoFile = null;
             try
@@ -55,7 +109,7 @@ public class MainActivity extends AppCompatActivity
                 photoFile = createImageFile();
             } catch (IOException ex)
             {
-                // Todo Error occurred while creating the File
+                Log.d("", "dispatchTakePictureIntent: " + ex.toString());
             }
             // Continue only if the File was successfully created
             if (photoFile != null)
@@ -65,20 +119,63 @@ public class MainActivity extends AppCompatActivity
                         "com.mcgill.pepuppy.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
-            // startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK)
         {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            aImageView.setImageBitmap(imageBitmap);
+            if (requestCode == REQUEST_IMAGE_CAPTURE)
+            {
+                Bitmap bmp = BitmapFactory.decodeFile(aCurrentPhotoPath);
+                FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
+                final FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
+                        .getCloudImageLabeler();
+                labeler.processImage(image)
+                        .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
+                        {
+                            @Override
+                            public void onSuccess(List<FirebaseVisionImageLabel> labels)
+                            {
+                                classify(labels);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener()
+                        {
+                            @Override
+                            public void onFailure(@NonNull Exception e)
+                            {
+                                alert("Image cannot be recognized.");
+                            }
+                        });
+            }
+        }
+    }
+
+    public void alert(String message) {
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+        dlgAlert.setMessage(message);
+        dlgAlert.setTitle("Woops!");
+        dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                //Todo
+            }
+        });
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+    }
+
+    private void classify(List<FirebaseVisionImageLabel> labels) {
+        for (int i = 0; i < labels.size(); i++) {
+            String thing = labels.get(i).getText();
+            Log.d("Label", thing);
         }
     }
 
@@ -97,35 +194,4 @@ public class MainActivity extends AppCompatActivity
         aCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
-    private void test()
-    {
-        FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler();
-        labeler.processImage(aVisionImage)
-                .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
-                {
-                    @Override
-                    public void onSuccess(List<FirebaseVisionImageLabel> labels)
-                    {
-                        // Task completed successfully
-                        // ...
-                        for (FirebaseVisionImageLabel label:labels)
-                        {
-                            String text=label.getText();
-                            String entityId = label.getEntityId();
-                            float confidence = label.getConfidence();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        // Task failed with an exception
-                        // ...
-                    }
-                });
-    }
-
 }
