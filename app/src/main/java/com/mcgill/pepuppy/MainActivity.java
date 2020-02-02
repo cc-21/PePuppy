@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity
                             public void onSuccess(List<FirebaseVisionImageLabel> labels)
                             {
                                 classify(labels);
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener()
@@ -177,6 +179,8 @@ public class MainActivity extends AppCompatActivity
             String thing = labels.get(i).getText();
             Log.d("Label", thing);
         }
+        LayoutInflater factory = LayoutInflater.from(this);
+        View view = factory.inflate(R.layout.item_row, null);
     }
 
     private File createImageFile() throws IOException
