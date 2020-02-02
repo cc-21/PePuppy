@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="272dp"
+        android:layout_height="303dp"
         android:layout_gravity="center"
         android:layout_marginBottom="140dp"
         android:fontFamily="@font/aclonica"

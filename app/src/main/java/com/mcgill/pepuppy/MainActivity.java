@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         breedLabel=breedLabel.replace(" ","_");
                     }
-                    breedLink = "Look at: https://en.wilipedia.org/wiki/" + breedLabel;
+                    breedLink = "Look at: https://en.wikipedia.org/wiki/" + breedLabel;
                 }
                 Log.d("Label", labelResult);
             }
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity
             labelResult += "Woops, PUPPY NOT FOUND!";
             aText.setGravity(Gravity.CENTER);
         }
-        aRecommendLink.setText("Useful Link: "+ "https://www.dogspot.in/adoption/");
+        aRecommendLink.setText("Useful Link: "+ "https://www.petfinder.com/search/dogs-for-adoption/?sort%5B0%5D=recently_added");
         aBreedLink.setText(breedLink, TextView.BufferType.NORMAL);
         aRecommendLink.setVisibility(View.VISIBLE);
         aBreedLink.setVisibility(View.VISIBLE);
