@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/download"
+    android:background="@drawable/main_screen"
     tools:context=".MainActivity">
 
     <Button
@@ -88,5 +88,4 @@
         android:lineSpacingExtra="8sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="invisible" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

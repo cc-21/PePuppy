@@ -5,7 +5,8 @@ import java.util.List;
 
 public class BreedData
 {
-    private static final String[] breedInfo = {"Blue Lacy","Queensland Heeler","Rhod Ridgeback","Retriever",
+    private static final String[] breedInfo =
+            {"Blue Lacy","Queensland Heeler","Rhod Ridgeback","Retriever",
             "Sharpei","Black Mouth Cur","Catahoula","Staffordshire","Affenpinscher","Afghan Hound",
             "Airedale Terrier","Akita","Australian Kelpie","Alaskan Malamute","English Bulldog","American Bulldog",
             "American English Coonhound","American Eskimo Dog","American Eskimo Dog",
@@ -38,7 +39,7 @@ public class BreedData
             "Treeing Walker Coonhound","Vizsla","Weimaraner","Welsh Springer Spaniel","Welsh Terrier","West Highland White Terrier","Whippet",
             "Wire Fox Terrier","Wirehaired Pointing Griffon","Wirehaired Vizsla","Xoloitzcuintli","Yorkshire Terrier"};
 
-    private static List<String> breedData = Arrays.asList(breedInfo);
+    private static final List<String> breedData = Arrays.asList(breedInfo);
 
     public static boolean contains(String pName)
     {
@@ -46,4 +47,3 @@ public class BreedData
                 .anyMatch(breed -> breed.trim().toLowerCase().equals(pName.trim().toLowerCase()));
     }
 }
-

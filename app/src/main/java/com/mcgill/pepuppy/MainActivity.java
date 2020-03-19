@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_UPLOAD = 2;
     private Button aCaptureBtn;
-    private Button aVisitedBtn;
+    private Button aUploadBtn;
     private String aCurrentPhotoPath;
     private TextView aText;
     private TextView aBreedLink;
@@ -60,36 +60,24 @@ public class MainActivity extends AppCompatActivity
         aBreedLink = findViewById(R.id.breed_link);
         aText = findViewById(R.id.textView2);
         aCaptureBtn = findViewById(R.id.capture_image_btn1);
-        aVisitedBtn = findViewById(R.id.capture_image_btn2);
-        aCaptureBtn.setOnClickListener(new View.OnClickListener()
+        aUploadBtn = findViewById(R.id.capture_image_btn2);
+        aCaptureBtn.setOnClickListener( view ->
         {
-            @Override
-            public void onClick(View v)
+            if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
             {
-                if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                        && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                {
-                    dispatchTakePictureIntent();
-                }else{
-                    // Permission not enabled
-                    String[] permission ={Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                    // Show popup to request permissions
-                    requestPermissions(permission, PERMISSION_CODE);
-                }
+                dispatchTakePictureIntent();
+            }
+            else {
+                // Permission not enabled
+                String[] permission ={Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                // Show popup to request permissions
+                requestPermissions(permission, PERMISSION_CODE);
             }
         });
-        aVisitedBtn.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        dispatchUploadImageIntent();
-                    }
-        });
+        aUploadBtn.setOnClickListener( view -> dispatchUploadImageIntent());
     }
 
-    // Todo
     private void dispatchUploadImageIntent()
     {
         Intent intent = new Intent();
@@ -102,19 +90,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        switch (requestCode)
+        if(requestCode == PERMISSION_CODE)
         {
-            case PERMISSION_CODE:
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    dispatchTakePictureIntent();
-                }
-                else
-                {
-                    Toast.makeText(this, "Permission Denied",Toast.LENGTH_SHORT).show();
-                }
+                dispatchTakePictureIntent();
+            }
+            else
+            {
+                Toast.makeText(this, "Permission Denied",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -130,7 +115,8 @@ public class MainActivity extends AppCompatActivity
             try
             {
                 photoFile = createImageFile();
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 Log.d("", "dispatchTakePictureIntent: " + ex.toString());
             }
@@ -163,52 +149,20 @@ public class MainActivity extends AppCompatActivity
                     Bitmap bmp = BitmapFactory.decodeFile(aCurrentPhotoPath);
                     FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
                     labeler.processImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
-                            {
-                                @Override
-                                public void onSuccess(List<FirebaseVisionImageLabel> labels)
-                                {
-                                    classify(labels);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener()
-                            {
-                                @Override
-                                public void onFailure(@NonNull Exception e)
-                                {
-                                    alert("Image cannot be recognized.");
-                                }
-                            });
+                            .addOnSuccessListener( labels -> classify(labels) )
+                            .addOnFailureListener( exception -> alert("Image cannot be recognized.") );
                 }
                 else if(requestCode == REQUEST_IMAGE_UPLOAD)
                 {
                     Uri selectedImage = data.getData();
-
                     Bitmap bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bmp);
                     labeler.processImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>()
-                            {
-                                @Override
-                                public void onSuccess(List<FirebaseVisionImageLabel> labels)
-                                {
-                                    classify(labels);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener()
-                            {
-                                @Override
-                                public void onFailure(@NonNull Exception e)
-                                {
-                                    alert("Image cannot be recognized.");
-                                }
-                            });
+                            .addOnSuccessListener( labels -> classify(labels) )
+                            .addOnFailureListener( exception -> alert("Image cannot be recognized.") );
                 }
             }
-            catch (FileNotFoundException e)
-            {
-                Log.d("", "dispatchUploadImageIntent: " + e.toString());
-            } catch (IOException e)
+            catch (IOException e)
             {
                 Log.d("", "dispatchUploadImageIntent: " + e.toString());
             }
@@ -220,12 +174,7 @@ public class MainActivity extends AppCompatActivity
         AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
         dlgAlert.setMessage(message);
         dlgAlert.setTitle("Woops!");
-        dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int which)
-            {
-            }
-        });
+        dlgAlert.setPositiveButton("OK", (dialog, which)-> {});
         dlgAlert.setCancelable(true);
         dlgAlert.create().show();
     }
@@ -260,7 +209,7 @@ public class MainActivity extends AppCompatActivity
             labelResult += "Woops, PUPPY NOT FOUND!";
             aText.setGravity(Gravity.CENTER);
         }
-        aRecommendLink.setText("Useful Link: "+ "https://www.petfinder.com/search/dogs-for-adoption/?sort%5B0%5D=recently_added");
+        aRecommendLink.setText("Useful Link: https://www.petfinder.com/search/dogs-for-adoption/?sort%5B0%5D=recently_added");
         aBreedLink.setText(breedLink, TextView.BufferType.NORMAL);
         aRecommendLink.setVisibility(View.VISIBLE);
         aBreedLink.setVisibility(View.VISIBLE);

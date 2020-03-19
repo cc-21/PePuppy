@@ -30,7 +30,6 @@
             android:background="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_refresh" />
-
     </FrameLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -62,9 +61,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
             android:paddingRight="8dp" />
-
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_take_photo"
@@ -73,10 +70,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_camera"
         app:backgroundTint="@color/colorPrimary"
-
         app:layout_anchor="@id/layout_bottom_sheet"
-        app:layout_anchorGravity="end"
-
-        />
-
+        app:layout_anchorGravity="end" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
